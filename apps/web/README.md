@@ -4,7 +4,7 @@
 The PayMeDash landing page, built with [Astro](https://astro.build) and
 [Tailwind CSS](https://tailwindcss.com), maintained by Sansbank DAO.
 
-- Live at: <https://paymedash.xyz> (apex) and <https://www.paymedash.xyz>
+- Live at: <https://paymedash.com> (apex) and <https://www.paymedash.com>
 - Deployed as: the `paymedash-web` Cloudflare Pages project
 
 This is a fully static site: no adapter, no server routes, nothing that reads
@@ -12,7 +12,7 @@ a request header. That is why it is a separate app from the storefront — the
 apex is a different host with no per-request logic. It never needs to be
 rebuilt when the storefront changes.
 
-The page embeds the live demo storefront from `demo.paymedash.xyz` in an
+The page embeds the live demo storefront from `demo.paymedash.com` in an
 iframe. The Content-Security-Policy in `public/_headers` authorizes that frame
 with `frame-src`, so if the demo host ever changes, update the policy in the
 same commit.

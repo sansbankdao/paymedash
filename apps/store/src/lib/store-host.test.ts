@@ -17,8 +17,8 @@ import {
     STORE_NAME_MAX_LENGTH,
 } from './store-host.ts'
 
-test('STORE_DOMAIN is paymedash.xyz', () => {
-    assert.equal(STORE_DOMAIN, 'paymedash.xyz')
+test('STORE_DOMAIN is paymedash.com', () => {
+    assert.equal(STORE_DOMAIN, 'paymedash.com')
 })
 
 test('reserves www, demo and pos', () => {
@@ -29,21 +29,21 @@ test('DEMO_SUBDOMAIN names the host that serves the local fixture', () => {
     assert.equal(DEMO_SUBDOMAIN, 'demo')
 })
 
-test('isDemoHost matches only demo.paymedash.xyz', () => {
-    assert.equal(isDemoHost('demo.paymedash.xyz'), true)
-    assert.equal(isDemoHost('DEMO.PayMeDash.Xyz'), true)
-    assert.equal(isDemoHost('demo.paymedash.xyz.'), true)
-    assert.equal(isDemoHost('demo.paymedash.xyz:443'), true)
+test('isDemoHost matches only demo.paymedash.com', () => {
+    assert.equal(isDemoHost('demo.paymedash.com'), true)
+    assert.equal(isDemoHost('DEMO.PayMeDash.Com'), true)
+    assert.equal(isDemoHost('demo.paymedash.com.'), true)
+    assert.equal(isDemoHost('demo.paymedash.com:443'), true)
 })
 
 test('isDemoHost rejects the apex, other subdomains and other domains', () => {
-    assert.equal(isDemoHost('paymedash.xyz'), false)
-    assert.equal(isDemoHost('www.paymedash.xyz'), false)
+    assert.equal(isDemoHost('paymedash.com'), false)
+    assert.equal(isDemoHost('www.paymedash.com'), false)
     /* `pos` is reserved but is NOT the demo host: it is the POS app. */
-    assert.equal(isDemoHost('pos.paymedash.xyz'), false)
-    assert.equal(isDemoHost('homemadecrypto.paymedash.xyz'), false)
+    assert.equal(isDemoHost('pos.paymedash.com'), false)
+    assert.equal(isDemoHost('homemadecrypto.paymedash.com'), false)
     /* A deeper name is a different host, not the demo. */
-    assert.equal(isDemoHost('demo.eu.paymedash.xyz'), false)
+    assert.equal(isDemoHost('demo.eu.paymedash.com'), false)
     /* Same label, different registrable domain. */
     assert.equal(isDemoHost('demo.example.com'), false)
 })
@@ -54,41 +54,41 @@ test('length bounds come from the DPNS contract schema', () => {
 })
 
 test('extracts the username label from a store subdomain', () => {
-    assert.equal(storeNameFromHostname('homemadecrypto.paymedash.xyz'), 'homemadecrypto')
+    assert.equal(storeNameFromHostname('homemadecrypto.paymedash.com'), 'homemadecrypto')
 })
 
 test('lower-cases the label, because hostnames are case-insensitive', () => {
-    assert.equal(storeNameFromHostname('HomemadeCrypto.PayMeDash.Xyz'), 'homemadecrypto')
-    assert.equal(storeNameFromHostname('HOMEMADECRYPTO.paymedash.xyz'), 'homemadecrypto')
+    assert.equal(storeNameFromHostname('HomemadeCrypto.PayMeDash.Com'), 'homemadecrypto')
+    assert.equal(storeNameFromHostname('HOMEMADECRYPTO.paymedash.com'), 'homemadecrypto')
 })
 
 test('ignores a trailing dot and a port', () => {
-    assert.equal(storeNameFromHostname('homemadecrypto.paymedash.xyz.'), 'homemadecrypto')
-    assert.equal(storeNameFromHostname('homemadecrypto.paymedash.xyz:443'), 'homemadecrypto')
+    assert.equal(storeNameFromHostname('homemadecrypto.paymedash.com.'), 'homemadecrypto')
+    assert.equal(storeNameFromHostname('homemadecrypto.paymedash.com:443'), 'homemadecrypto')
 })
 
 test('returns null for the apex', () => {
-    assert.equal(storeNameFromHostname('paymedash.xyz'), null)
+    assert.equal(storeNameFromHostname('paymedash.com'), null)
 })
 
 test('returns null for reserved subdomains', () => {
-    assert.equal(storeNameFromHostname('www.paymedash.xyz'), null)
-    assert.equal(storeNameFromHostname('demo.paymedash.xyz'), null)
-    assert.equal(storeNameFromHostname('WWW.paymedash.xyz'), null)
-    assert.equal(storeNameFromHostname('Demo.paymedash.xyz'), null)
+    assert.equal(storeNameFromHostname('www.paymedash.com'), null)
+    assert.equal(storeNameFromHostname('demo.paymedash.com'), null)
+    assert.equal(storeNameFromHostname('WWW.paymedash.com'), null)
+    assert.equal(storeNameFromHostname('Demo.paymedash.com'), null)
 })
 
 test('returns null for pos, which is the POS app and not a merchant', () => {
-    assert.equal(storeNameFromHostname('pos.paymedash.xyz'), null)
-    assert.equal(storeNameFromHostname('POS.paymedash.xyz'), null)
+    assert.equal(storeNameFromHostname('pos.paymedash.com'), null)
+    assert.equal(storeNameFromHostname('POS.paymedash.com'), null)
 })
 
 test('returns null for nested labels', () => {
-    assert.equal(storeNameFromHostname('a.b.paymedash.xyz'), null)
+    assert.equal(storeNameFromHostname('a.b.paymedash.com'), null)
 })
 
 test('returns null for a different domain', () => {
-    assert.equal(storeNameFromHostname('paymedash.xyz'), null)
+    assert.equal(storeNameFromHostname('paymedash.com'), null)
     assert.equal(storeNameFromHostname('example.com'), null)
 })
 

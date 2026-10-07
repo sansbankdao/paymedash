@@ -1,15 +1,15 @@
 ---
 // src/pages/index.astro
 //
-// The apex landing page, at `https://paymedash.xyz`.
+// The apex landing page, at `https://paymedash.com`.
 //
 // This is a fully static build. It used to be server-rendered so that a
-// middleware could rewrite `<username>.paymedash.xyz/` to `/store`, because
+// middleware could rewrite `<username>.paymedash.com/` to `/store`, because
 // Astro serves `/` from this file and a prerendered `/` is returned by the
 // Cloudflare entry before the route renderer — or the middleware — ever runs.
 //
 // That workaround is gone. Merchant storefronts are now a separate Worker
-// (`apps/store`) that Cloudflare routes the `*.paymedash.xyz` host family to,
+// (`apps/store`) that Cloudflare routes the `*.paymedash.com` host family to,
 // so its `/` IS the storefront. This app only ever serves the apex, and there
 // is nothing left for it to classify per request.
 
@@ -26,11 +26,11 @@ import Layout from '../layouts/Layout.astro'
                 Accept crypto payments with no middlemen, no processing fees and no chargebacks.
             </p>
             <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="https://demo.paymedash.xyz" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
+                <a href="https://demo.paymedash.com" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
                     Try the demo
                 </a>
-                <a href="https://paymedash.xyz" class="border border-gray-600 text-gray-200 font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors">
-                    paymedash.xyz
+                <a href="https://paymedash.com" class="border border-gray-600 text-gray-200 font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors">
+                    paymedash.com
                 </a>
             </div>
         </header>
@@ -51,17 +51,17 @@ import Layout from '../layouts/Layout.astro'
                             <li>• Keyboard and screen-reader accessible</li>
                         </ul>
                         <div class="flex flex-wrap gap-3">
-                            <a href="https://demo.paymedash.xyz" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+                            <a href="https://demo.paymedash.com" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
                                 Open full demo
                             </a>
-                            <a href="https://demo.paymedash.xyz" class="border border-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
+                            <a href="https://demo.paymedash.com" class="border border-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
                                 Launch storefront
                             </a>
                         </div>
                     </div>
                     <div class="bg-gray-800 p-8 flex items-center justify-center">
                         <iframe
-                            src="https://demo.paymedash.xyz"
+                            src="https://demo.paymedash.com"
                             title="PayMeDash storefront demo"
                             loading="lazy"
                             class="w-full max-w-md h-[520px] rounded-xl border border-gray-700 bg-gray-800"
@@ -76,7 +76,7 @@ import Layout from '../layouts/Layout.astro'
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="bg-gray-700 rounded-2xl p-6">
                     <h3 class="text-xl font-bold text-gray-50 mb-2">Any storefront</h3>
-                    <p class="text-gray-300">Every merchant gets a shop at <code class="text-gray-100">&lt;username&gt;.paymedash.xyz</code>, resolved from their Dash Platform identity.</p>
+                    <p class="text-gray-300">Every merchant gets a shop at <code class="text-gray-100">&lt;username&gt;.paymedash.com</code>, resolved from their Dash Platform identity.</p>
                 </div>
                 <div class="bg-gray-700 rounded-2xl p-6">
                     <h3 class="text-xl font-bold text-gray-50 mb-2">Paid in crypto</h3>

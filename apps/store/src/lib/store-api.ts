@@ -3,7 +3,7 @@
 // Client for the `paymedash-api` store-resolution endpoint.
 //
 // The endpoint is `GET /v1/store?name=<dpns-label>` on the shared Worker that is
-// routed in front of this site at `paymedash.xyz/v1/*` (see
+// routed in front of this site at `paymedash.com/v1/*` (see
 // ../paymedash-api/packages/api/wrangler.jsonc). It answers with the store
 // document that the name's identity owns, and it only answers at all once the
 // document's grovedb proof has verified — `proofVerified` is `true` on every
@@ -24,9 +24,9 @@
 /*
  * The API origin the resolver is reached through.
  *
- * `paymedash.xyz/v1/*` is routed to the `paymedash-api` Worker (see that
+ * `paymedash.com/v1/*` is routed to the `paymedash-api` Worker (see that
  * repo's wrangler.jsonc). The storefront calls the APEX route even when it is
- * itself served from `<username>.paymedash.xyz`: the request is made from the
+ * itself served from `<username>.paymedash.com`: the request is made from the
  * Astro server, not the browser, so it is a plain server-to-server call and
  * Cloudflare routes it to the Worker without any CORS involvement. Pointing at
  * the subdomain instead would re-enter the Astro worker and loop.
@@ -43,7 +43,7 @@
 const BUILD_STORE_API_ORIGIN = (import.meta.env as ImportMetaEnv | undefined)?.STORE_API_ORIGIN
 
 export const STORE_API_ORIGIN: string =
-    (BUILD_STORE_API_ORIGIN as string | undefined) ?? 'https://paymedash.xyz'
+    (BUILD_STORE_API_ORIGIN as string | undefined) ?? 'https://paymedash.com'
 
 /** The resolved store, as the Worker returns it. */
 export interface StoreRecord {

@@ -5,10 +5,10 @@ The PayMeDash storefront: a demo shop and every merchant's hosted shop, built
 with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com),
 maintained by Sansbank DAO.
 
-This app is served from the root of every `*.paymedash.xyz` host:
+This app is served from the root of every `*.paymedash.com` host:
 
-- Storefront demo: <https://demo.paymedash.xyz>
-- Hosted storefront: `https://<username>.paymedash.xyz` — resolves a Dash
+- Storefront demo: <https://demo.paymedash.com>
+- Hosted storefront: `https://<username>.paymedash.com` — resolves a Dash
   Platform username to that identity's store
 
 It is one Astro build behind a Cloudflare Worker that reads the request `Host`
@@ -57,7 +57,7 @@ The project is organized as follows:
 └── package.json
 ```
 
-`/` is the storefront and `<username>.paymedash.xyz/` is a merchant's hosted
+`/` is the storefront and `<username>.paymedash.com/` is a merchant's hosted
 storefront; both are the same server-rendered route, which is why `index.astro`
 is not prerendered. `create-store.astro` publishes a new store document.
 

@@ -40,7 +40,7 @@ function foundPayload() {
 }
 
 test('the API origin is the site the Worker is routed on', () => {
-    assert.equal(STORE_API_ORIGIN, 'https://paymedash.xyz')
+    assert.equal(STORE_API_ORIGIN, 'https://paymedash.com')
 })
 
 test('reads a string property, rejecting non-strings', () => {

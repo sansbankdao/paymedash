@@ -173,7 +173,7 @@ figures in the legacy engineering handoff, which contained several errors.
 ### Deployed API
 
 The checkout is served by the `paymedash-api` Worker, which is routed at `/v1`
-on this zone and on `paymedash.xyz`, in front of the static Pages site.
+on this zone and on `paymedash.com`, in front of the static Pages site.
 
 | Endpoint | Purpose |
 | --- | --- |
@@ -192,7 +192,7 @@ on this zone and on `paymedash.xyz`, in front of the static Pages site.
   not add it to any tracked file; the POS has no need for it.
 - `partnerKeyPresent: true` from `/v1/health` and `authenticated: true` on a
   quote are the observable proof that the binding resolves.
-- `/admin` **is deployed** at `https://pos.paymedash.xyz/admin`. It is marked
+- `/admin` **is deployed** at `https://pos.paymedash.com/admin`. It is marked
   `noindex, nofollow` and is not linked from the POS, but it is publicly
   reachable, so **no secret may ever be entered into it**. It stores display
   settings and the merchant payout address in localStorage, which is

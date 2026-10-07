@@ -4,9 +4,9 @@
 //
 // The platform serves one store per subdomain:
 //
-//   <USERNAME>.paymedash.xyz
+//   <USERNAME>.paymedash.com
 //
-// The apex (`paymedash.xyz`), `www`, `demo` and `pos` are NOT usernames —
+// The apex (`paymedash.com`), `www`, `demo` and `pos` are NOT usernames —
 // they are the landing page, the demo storefront, and the point of sale.
 // Everything else is treated as a candidate DPNS label and handed to
 // `isValidStoreName()`.
@@ -30,14 +30,14 @@
 // identity id into a store document, is the resolver's job.
 
 /** The registrable domain the storefront serves under. */
-export const STORE_DOMAIN = 'paymedash.xyz'
+export const STORE_DOMAIN = 'paymedash.com'
 
 /**
  * Subdomains that are reserved and never treated as a username.
  *
- * `pos` is reserved because `pos.paymedash.xyz` is the point-of-sale app
+ * `pos` is reserved because `pos.paymedash.com` is the point-of-sale app
  * (`apps/pos`), not a merchant. Without it the host family
- * `*.paymedash.xyz` would route `pos.paymedash.xyz/` into this storefront
+ * `*.paymedash.com` would route `pos.paymedash.com/` into this storefront
  * and try to resolve a DPNS username literally called `pos`.
  */
 export const RESERVED_SUBDOMAINS = ['www', 'demo', 'pos'] as const
@@ -46,7 +46,7 @@ export const RESERVED_SUBDOMAINS = ['www', 'demo', 'pos'] as const
  * The subdomain that serves the built-in demo storefront.
  *
  * The demo renders the local fixture in `src/data/products.ts` and never
- * contacts the resolver, so `demo.paymedash.xyz` works with no network and
+ * contacts the resolver, so `demo.paymedash.com` works with no network and
  * no registered store. It stays in `RESERVED_SUBDOMAINS` above, which is why
  * `storeNameFromHostname()` returns `null` for it rather than a username.
  */
@@ -55,9 +55,9 @@ export const DEMO_SUBDOMAIN = 'demo'
 /**
  * Is this hostname the demo storefront?
  *
- * Matches only `demo.paymedash.xyz` (any case, optional port, optional
+ * Matches only `demo.paymedash.com` (any case, optional port, optional
  * trailing root dot) — not `demo.example.com`, and not a deeper name such as
- * `demo.eu.paymedash.xyz`. Kept beside `storeNameFromHostname()` so both
+ * `demo.eu.paymedash.com`. Kept beside `storeNameFromHostname()` so both
  * read the same `STORE_DOMAIN` and cannot drift.
  */
 export function isDemoHost(hostname: string): boolean {
@@ -126,7 +126,7 @@ export function storeNameFromHostname(hostname: string): string | null {
     if (typeof hostname !== 'string') return null
 
     /* Drop a trailing dot (the root label) and any :port, so a `Host` header
-     * such as `homemadecrypto.paymedash.xyz:443` still parses. */
+     * such as `homemadecrypto.paymedash.com:443` still parses. */
     const host = hostname.replace(/\.$/, '').split(':')[0]
 
     const labels = host.split('.')

@@ -7,7 +7,7 @@
 // index: the HTML references `/_astro/...` bundles and a `/manifest.webmanifest`,
 // and those arrive as separate requests that never reach the page. Proxying
 // from the page therefore served an index whose every asset 404'd --
-// `pos.paymedash.xyz/_astro/...` and `pos.paymedash.xyz/manifest.webmanifest`
+// `pos.paymedash.com/_astro/...` and `pos.paymedash.com/manifest.webmanifest`
 // returned 404 while the same paths on `paymedash-pos.pages.dev` returned 200.
 // Measured, not assumed.
 //

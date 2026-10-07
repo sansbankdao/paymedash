@@ -8,7 +8,7 @@ import assert from 'node:assert/strict'
 
 import { proxyToPages } from './pages-proxy.ts'
 
-const POS_REQUEST = new Request('https://pos.paymedash.xyz/admin')
+const POS_REQUEST = new Request('https://pos.paymedash.com/admin')
 const POS_ORIGIN = 'https://paymedash-pos.pages.dev'
 
 /** Swap global fetch for one canned answer, restoring afterwards. */

@@ -8,7 +8,7 @@
 // existing Worker rather than creating a new one.
 //
 // WHY THERE IS NO `assets` BLOCK HERE
-// An earlier attempt to route `<username>.paymedash.xyz/` to the storefront
+// An earlier attempt to route `<username>.paymedash.com/` to the storefront
 // set `assets.run_worker_first: true`, on the theory that Cloudflare was serving
 // the prerendered `/` before the Worker ran. That theory was wrong: the
 // short-circuit is INSIDE the Astro entry (`entry.mjs` calls `matchStaticAsset`
@@ -18,8 +18,8 @@
 // The real fix is `export const prerender = false` in `src/pages/index.astro`:
 // with no `dist/client/index.html`, `/` has no static file to short-circuit on,
 // so it matches a real route. That single route reads the request `Host` header
-// itself and renders the demo fixture on `demo.paymedash.xyz`, or resolves the
-// DPNS username on `<username>.paymedash.xyz`. There is no middleware and no
+// itself and renders the demo fixture on `demo.paymedash.com`, or resolves the
+// DPNS username on `<username>.paymedash.com`. There is no middleware and no
 // `/store` route: `src/middleware.ts`, `src/pages/demo.astro` and
 // `src/pages/store.astro` were all removed when the three apps were split, and
 // `src/lib/store-host.ts` is what decides which hostname is which. Static assets
@@ -35,8 +35,8 @@
 // `wrangler kv namespace create SESSION`.
 //
 // WHY THE `API` SERVICE BINDING IS HERE
-// This Worker owns the `*.paymedash.xyz/*` route. A plain `fetch()` from
-// inside it to `https://paymedash.xyz/v1/store` does NOT reach the
+// This Worker owns the `*.paymedash.com/*` route. A plain `fetch()` from
+// inside it to `https://paymedash.com/v1/store` does NOT reach the
 // `paymedash-api` Worker: the request is resolved within the same zone, the
 // wildcard route re-enters this Worker, and the response is the landing page as
 // `200 text/html` instead of the API's JSON. A service binding is a direct
@@ -47,8 +47,8 @@
 //
 // WHY THE ROUTE IS DECLARED HERE
 // `wrangler deploy` attaches a route only when the config names one. The
-// wildcard `*.paymedash.xyz/*` is what puts every merchant subdomain
-// (`<username>.paymedash.xyz`), the demo host and the two proxied hosts on this
+// wildcard `*.paymedash.com/*` is what puts every merchant subdomain
+// (`<username>.paymedash.com`), the demo host and the two proxied hosts on this
 // Worker; without it the deploy succeeds and the Worker receives no traffic at
 // all, because the zone has nothing pointing at it. The apex and `www` are NOT
 // in this pattern -- they are the landing page, served by the `paymedash-web`
@@ -58,8 +58,8 @@
     "compatibility_date": "2025-01-29",
     "routes": [
         {
-            "pattern": "*.paymedash.xyz/*",
-            "zone_name": "paymedash.xyz"
+            "pattern": "*.paymedash.com/*",
+            "zone_name": "paymedash.com"
         }
     ],
     "kv_namespaces": [

@@ -8,9 +8,9 @@ app itself.
 
 ## App facts
 
-- **Purpose:** the storefront. Serves the root of every `*.paymedash.xyz`
-  host: `demo.paymedash.xyz` renders the built-in demo
-  fixture, and `<username>.paymedash.xyz` renders the merchant's Dash Platform
+- **Purpose:** the storefront. Serves the root of every `*.paymedash.com`
+  host: `demo.paymedash.com` renders the built-in demo
+  fixture, and `<username>.paymedash.com` renders the merchant's Dash Platform
   store.
 - **Stack:** Astro `7.3.5` on the Cloudflare adapter (`@astrojs/cloudflare`) +
   Tailwind CSS `4.3.3` wired through `@tailwindcss/vite`. TypeScript via
@@ -19,11 +19,11 @@ app itself.
 - **Rendering:** the single route `/` is server-rendered
   (`export const prerender = false`). It must be, because it reads the request
   `Host` header to decide what to serve — the demo fixture on
-  `demo.paymedash.xyz`, a resolved Dash Platform store on
-  `<username>.paymedash.xyz`. Cloudflare routes the `*.paymedash.xyz` host
+  `demo.paymedash.com`, a resolved Dash Platform store on
+  `<username>.paymedash.com`. Cloudflare routes the `*.paymedash.com` host
   family to this Worker, so `/` IS the storefront for every one of them. See
   `src/pages/index.astro` for the full explanation.
-- **Site origin:** `https://paymedash.xyz` (set as `site` in
+- **Site origin:** `https://paymedash.com` (set as `site` in
   `astro.config.mjs`; drives canonical + `og:url` in `src/layouts/Layout.astro`).
 
 ### Source layout
@@ -65,22 +65,22 @@ public/_headers           Cloudflare security headers + long-cache rules
 
 ## Shared API server — read this before adding any network call
 
-**`https://paymedash.xyz` serves one API server:
+**`https://paymedash.com` serves one API server:
 the `paymedash-api` Worker, which is routed at `/v1` in front of
 the site.** The Worker source is a separate, private repository.
 
 - **The hosted storefront calls two `/v1` endpoints**, both from the SERVER, both
   through `src/lib/store-api.ts`: `GET /v1/store?name=<label>` and
   `GET /v1/store/items?storeId=<store document id>`. The origin is the APEX
-  (`https://paymedash.xyz/v1/*`, routed to the Worker), even when the page is
-  served from `<username>.paymedash.xyz`; the call is server-to-server, so
+  (`https://paymedash.com/v1/*`, routed to the Worker), even when the page is
+  served from `<username>.paymedash.com`; the call is server-to-server, so
   CORS does not apply. The value is overridable at build time with
   `STORE_API_ORIGIN` for local development only.
   The demo's cart is in-memory and the Pay button still only shows an `alert()`;
   that path makes no network call.
-- **URL map:** `paymedash.xyz/` is the landing page (`apps/web`),
-  `demo.paymedash.xyz/` is the demo storefront, `pos.paymedash.xyz/` is the
-  point of sale (`apps/pos`), and `<USERNAME>.paymedash.xyz/` is a merchant's
+- **URL map:** `paymedash.com/` is the landing page (`apps/web`),
+  `demo.paymedash.com/` is the demo storefront, `pos.paymedash.com/` is the
+  point of sale (`apps/pos`), and `<USERNAME>.paymedash.com/` is a merchant's
   hosted storefront. The demo, the POS and the hosted storefronts are all in
   this monorepo, so the demo cannot drift from what the landing page advertises.
   Do not fork the storefront into a second repo.
@@ -96,10 +96,10 @@ the site.** The Worker source is a separate, private repository.
 The site builds to a **Cloudflare Worker** through the `@astrojs/cloudflare`
 adapter: `pnpm build` emits `dist/server` (the Worker) and `dist/client` (static
 assets), and the adapter merges the `wrangler.jsonc` in this directory into
-`dist/server/wrangler.json`. The zone is `paymedash.xyz`, shared with the API
+`dist/server/wrangler.json`. The zone is `paymedash.com`, shared with the API
 Worker: `paymedash-api/packages/api/wrangler.paymedash.jsonc` routes
-`paymedash.xyz/v1`
-and `paymedash.xyz/v1/*` with `"zone_name": "paymedash.xyz"`. That Worker
+`paymedash.com/v1`
+and `paymedash.com/v1/*` with `"zone_name": "paymedash.com"`. That Worker
 lives in the separate `sansbankdao/paymedash-api` repository, not in this
 monorepo.
 
@@ -144,7 +144,7 @@ pnpm --filter @paymedash/store audit     # dependency vulnerability scan
 ## Gotchas for agents
 
 - **`www` and `pos` are PROXIED, not routed.** This Worker owns the wildcard
-  route `*.paymedash.xyz/*`, and Cloudflare does not reliably let a
+  route `*.paymedash.com/*`, and Cloudflare does not reliably let a
   more-specific literal route win over a wildcard. So `www` and `pos` are
   forwarded from `src/middleware.ts` to their Pages origins. Consequences:
   - **The forward must stay in middleware.** It was once in
@@ -154,7 +154,7 @@ pnpm --filter @paymedash/store audit     # dependency vulnerability scan
     paths. Do not move it back into the page.
   - **Proxy targets must be the `*.pages.dev` aliases**
     (`paymedash-web.pages.dev`, `paymedash-pos.pages.dev`), never the
-    `paymedash.xyz` spellings — a fetch to those would match the same
+    `paymedash.com` spellings — a fetch to those would match the same
     wildcard, re-enter this Worker, and loop.
 - **Do not `read` binary assets** (`public/favicon.svg` and any future images,
   PDFs, archives). Verify them with `ls -la`, `file`, or `du` instead. Loading a

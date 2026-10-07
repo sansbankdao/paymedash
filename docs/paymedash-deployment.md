@@ -1,21 +1,21 @@
 <!-- docs/paymedash-deployment.md -->
 
-# paymedash.xyz deployment
+# paymedash.com deployment
 
-This document describes the live host family on `paymedash.xyz`.
+This document describes the live host family on `paymedash.com`.
 
 ## What runs where
 
 | Host | Kind | Project / Worker | Origin |
 | --- | --- | --- | --- |
-| `paymedash.xyz` | Pages | `paymedash-web` | `paymedash-web.pages.dev` |
-| `www.paymedash.xyz` | Pages | `paymedash-web` | `paymedash-web.pages.dev` |
-| `pos.paymedash.xyz` | Pages | `paymedash-pos` | `paymedash-pos.pages.dev` |
-| `demo.paymedash.xyz` | Worker | `paymedash-store` | fixture, no network |
-| `<username>.paymedash.xyz` | Worker | `paymedash-store` | DPNS -> store document |
-| `paymedash.xyz/v1`, `/v1/*` | Worker | `paymedash-api` | API |
+| `paymedash.com` | Pages | `paymedash-web` | `paymedash-web.pages.dev` |
+| `www.paymedash.com` | Pages | `paymedash-web` | `paymedash-web.pages.dev` |
+| `pos.paymedash.com` | Pages | `paymedash-pos` | `paymedash-pos.pages.dev` |
+| `demo.paymedash.com` | Worker | `paymedash-store` | fixture, no network |
+| `<username>.paymedash.com` | Worker | `paymedash-store` | DPNS -> store document |
+| `paymedash.com/v1`, `/v1/*` | Worker | `paymedash-api` | API |
 
-The `paymedash-store` Worker owns the route `*.paymedash.xyz/*` and proxies
+The `paymedash-store` Worker owns the route `*.paymedash.com/*` and proxies
 `www.` and `pos.` to the two Pages origins (`src/lib/pages-proxy.ts`). The apex
 is NOT in that wildcard -- it is the landing page, served by `paymedash-web`.
 
@@ -30,7 +30,7 @@ One wrangler config file defines one Worker, so the API Worker deploys from
 
 `wrangler deploy` attaches a route only when the config declares one. The
 wildcard DNS record alone is not sufficient -- a Worker with no route receives
-no traffic. The pattern is `*.paymedash.xyz/*` and it deliberately excludes the
+no traffic. The pattern is `*.paymedash.com/*` and it deliberately excludes the
 apex.
 
 ## Deployed versions
@@ -46,14 +46,14 @@ newer version; the first recorded deploy was
 
 ## Verified live
 
-- `demo.paymedash.xyz` -> 200, "Homemade Crypto -- Demo", fixture renders in
+- `demo.paymedash.com` -> 200, "Homemade Crypto -- Demo", fixture renders in
   full.
-- `pos.paymedash.xyz` -> 200, "PayMeDash POS"; `/_astro/` and
+- `pos.paymedash.com` -> 200, "PayMeDash POS"; `/_astro/` and
   `/manifest.webmanifest` return 200 through the proxy. `/admin/`, `/terms/`
   and `/privacy/` -> 200, all titled "PayMeDash".
-- `www.paymedash.xyz` and `paymedash.xyz` -> 200, "PayMeDash".
-- `paymedash.xyz/v1/shield/quote?amount=0.05` -> 200 with a real quote.
-- `paymedash.xyz/v1/store?name=homemadecrypto` -> 404
+- `www.paymedash.com` and `paymedash.com` -> 200, "PayMeDash".
+- `paymedash.com/v1/shield/quote?amount=0.05` -> 200 with a real quote.
+- `paymedash.com/v1/store?name=homemadecrypto` -> 404
   `No identity has registered this name.` The resolver was REACHED via the
   service binding, which is what the binding exists to prove: the failure is a
   real upstream answer, not the HTML-loop the binding prevents.

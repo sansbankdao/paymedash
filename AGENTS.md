@@ -22,15 +22,15 @@ apps/store   Cloudflare Worker. `/` is server-rendered and reads the Host header
 apps/pos     static point of sale.
 ```
 
-`apps/store` serves the root of every `*.paymedash.xyz` host:
-`demo.paymedash.xyz` renders the local fixture in `src/data/products.ts`
-without any network call, and `<username>.paymedash.xyz` resolves a Dash
+`apps/store` serves the root of every `*.paymedash.com` host:
+`demo.paymedash.com` renders the local fixture in `src/data/products.ts`
+without any network call, and `<username>.paymedash.com` resolves a Dash
 Platform store through the API. Reserved labels (`www`, `demo`, `pos`) are never
 treated as usernames — see `apps/store/src/lib/store-host.ts`.
 
 ### How a host is dispatched (measured, not assumed)
 
-The store Worker owns the wildcard route `*.paymedash.xyz/*`. Cloudflare does
+The store Worker owns the wildcard route `*.paymedash.com/*`. Cloudflare does
 **not** reliably let a more-specific literal route win over a wildcard, so
 `www` and `pos` cannot be handled by their own routes while the wildcard is
 attached. They are instead **proxied** by this Worker:
@@ -44,17 +44,17 @@ Two constraints keep this correct, and both were established by measurement:
 - **The forward must run for every path, not just `/`.** It lives in middleware
   because `src/pages/index.astro` only matches `/`. A Pages site also serves
   `/_astro/...` bundles and `/manifest.webmanifest` as separate requests; when
-  the proxy was attached to the page, `pos.paymedash.xyz/_astro/...` and
-  `pos.paymedash.xyz/manifest.webmanifest` returned 404 while the same paths
+  the proxy was attached to the page, `pos.paymedash.com/_astro/...` and
+  `pos.paymedash.com/manifest.webmanifest` returned 404 while the same paths
   on `paymedash-pos.pages.dev` returned 200.
 - **Proxy targets must be the `*.pages.dev` production aliases**, never the
-  `paymedash.xyz` spellings. A fetch to `pos.paymedash.xyz` would match the
+  `paymedash.com` spellings. A fetch to `pos.paymedash.com` would match the
   same wildcard, re-enter this Worker and loop.
 
 ### Not in this repository
 
 The API Worker is `sansbankdao/paymedash-api`, a **separate repository**. It is
-routed at `/v1/*` on `paymedash.xyz` and owns DPNS resolution, grovedb proof
+routed at `/v1/*` on `paymedash.com` and owns DPNS resolution, grovedb proof
 verification and store listings. Nothing here can deploy it, and a change to
 `/v1` behaviour cannot be made from this repo.
 
@@ -103,7 +103,7 @@ Target one app with `pnpm --filter @paymedash/<app> <script>`.
 
 `www`, `demo` and `pos` are reserved in
 `apps/store/src/lib/store-host.ts` and must stay that way. `pos` in particular
-is reserved because `pos.paymedash.xyz` is `apps/pos`; without it the store
+is reserved because `pos.paymedash.com` is `apps/pos`; without it the store
 Worker would try to resolve a merchant literally named `pos`. They stay
 reserved *while* being proxied, so `storeNameFromHostname()` returns `null` for
 them and they can never be mistaken for merchants.
@@ -198,7 +198,7 @@ fetchable: `getShieldedEncryptedNotes`, `getShieldedAnchors`,
 
 - `apps/web` and `apps/pos` are static; `apps/store` is a Cloudflare Worker
   (`wrangler.jsonc`, name `paymedash-store`).
-- `paymedash.xyz` is the Cloudflare zone for this family.
+- `paymedash.com` is the Cloudflare zone for this family.
 - The API is deployed from its own repository, not this one.
 - **Deploy the store Worker from its build output**, not the source directory:
   `wrangler deploy --config dist/server/wrangler.json` after `astro build`.

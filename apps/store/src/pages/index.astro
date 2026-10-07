@@ -1,12 +1,12 @@
 ---
 // apps/store/src/pages/index.astro
 //
-// The storefront, served from the root of every `*.paymedash.xyz` host that
+// The storefront, served from the root of every `*.paymedash.com` host that
 // is not the apex. Cloudflare routes the host family here, so this one route is
 // both the demo and every merchant's shop:
 //
-//   demo.paymedash.xyz     -> the built-in demo fixture (no network)
-//   <USERNAME>.paymedash.xyz -> GET /v1/store -> the identity's proven `store`
+//   demo.paymedash.com     -> the built-in demo fixture (no network)
+//   <USERNAME>.paymedash.com -> GET /v1/store -> the identity's proven `store`
 //                                 document -> its active `storeItem` documents
 //
 // The page resolves the requested hostname and renders it. On a merchant host:
@@ -15,7 +15,7 @@
 //                                  -> its active `storeItem` documents
 //
 // The endpoint lives in the `paymedash-api` Worker, which is routed in front of
-// this site at paymedash.xyz/v1/*. It returns a store ONLY after the store
+// this site at paymedash.com/v1/*. It returns a store ONLY after the store
 // document's grovedb proof has verified, and this page renders the store only
 // when the response says so. A malformed host, an unregistered name, an
 // identity with no store, or an unreachable API all render "Store Not Found"
@@ -55,14 +55,14 @@ import {
 /*
  * Reach the store resolver over a SERVICE BINDING rather than an HTTP fetch.
  *
- * WHY. This Worker is bound to the `*.paymedash.xyz/*` route, and a plain
- * `fetch('https://paymedash.xyz/v1/store')` from inside it does NOT reach the
+ * WHY. This Worker is bound to the `*.paymedash.com/*` route, and a plain
+ * `fetch('https://paymedash.com/v1/store')` from inside it does NOT reach the
  * `paymedash-api` Worker. It is resolved within the same zone, the wildcard
  * route re-enters this Worker, and `/v1/store` comes back as the landing page:
  * `200 text/html`. `store-api.ts` then fails `response.json()` and every
  * non-demo host renders "The store resolver returned a non-JSON response."
- * That is exactly what `store.paymedash.xyz`, `homemadecrypto.paymedash.xyz`
- * and every `<username>.paymedash.xyz` showed. The same code running on
+ * That is exactly what `store.paymedash.com`, `homemadecrypto.paymedash.com`
+ * and every `<username>.paymedash.com` showed. The same code running on
  * `*.workers.dev` (no zone route) reaches the API correctly, which is what
  * isolates the cause to the edge re-route rather than to the client.
  *
@@ -130,7 +130,7 @@ const hostname = Astro.request.headers.get('host') ?? ''
 
 /*
  * The demo is a first-class host, not a special case bolted onto the resolver.
- * `demo.paymedash.xyz` is in RESERVED_SUBDOMAINS, so `storeNameFromHostname`
+ * `demo.paymedash.com` is in RESERVED_SUBDOMAINS, so `storeNameFromHostname`
  * returns null for it and it can never be mistaken for a merchant named "demo".
  * Here it short-circuits before any network call and renders the local fixture.
  */

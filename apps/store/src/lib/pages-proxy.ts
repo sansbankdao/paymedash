@@ -3,7 +3,7 @@
 // Proxy the Pages-hosted subdomains through this Worker.
 //
 // WHY THIS EXISTS
-// Username storefronts need the `*.paymedash.xyz/*` route. So do `www` and
+// Username storefronts need the `*.paymedash.com/*` route. So do `www` and
 // `pos`, but Cloudflare does NOT let a more specific literal route win over a
 // wildcard reliably: attaching the wildcard made `www` and `pos` answer with
 // this app's "Store Not Found" instead of the Pages sites. Measured, not
@@ -11,21 +11,21 @@
 //
 // Rather than give up either the wildcard or the two hostnames, this Worker
 // owns the wildcard and FORWARDS `www` and `pos` to their real origins. Every
-// `*.paymedash.xyz` host therefore reaches one script, and this is the only
+// `*.paymedash.com` host therefore reaches one script, and this is the only
 // place that decides what each host means.
 //
 // WHY THE ORIGINS ARE `*.pages.dev`
 // The origins are the Pages production aliases, addressed as `*.pages.dev`
-// rather than as `www.paymedash.xyz` / `pos.paymedash.xyz` on purpose:
-// fetching the `paymedash.xyz` spelling would match the same wildcard,
+// rather than as `www.paymedash.com` / `pos.paymedash.com` on purpose:
+// fetching the `paymedash.com` spelling would match the same wildcard,
 // re-enter this Worker and loop forever.
 //
 // WHY THIS IS A MODULE AND NOT INLINE IN THE PAGE
 // It must run for EVERY path, not just `/`, because a Pages site is more than
 // its index: the HTML references `/_astro/...` bundles and a
 // `/manifest.webmanifest`, and those are separate requests. A proxy that only
-// handled `/` served broken pages -- `pos.paymedash.xyz/_astro/...` and
-// `pos.paymedash.xyz/manifest.webmanifest` returned 404 while the same paths
+// handled `/` served broken pages -- `pos.paymedash.com/_astro/...` and
+// `pos.paymedash.com/manifest.webmanifest` returned 404 while the same paths
 // on `paymedash-pos.pages.dev` returned 200. Measured, not assumed.
 //
 // Astro middleware runs for all paths, and `index.astro` only matches `/`. The
@@ -54,7 +54,7 @@ export const PAGES_PROXY_ORIGINS: Record<string, string> = {
  * Strip a `Host` header down to the bare, lower-cased hostname.
  *
  * Drops a trailing dot (the root label) and any `:port`, so a header such as
- * `pos.paymedash.xyz:443` still compares. Kept beside `storeNameFromHostname`
+ * `pos.paymedash.com:443` still compares. Kept beside `storeNameFromHostname`
  * in spirit: same parsing concern, so the two agree on what a host is.
  */
 export function bareHostname(hostname: string): string {

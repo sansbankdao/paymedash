@@ -5,7 +5,7 @@ The PayMeDash point of sale: a register UI that accepts Dash, built with
 [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com),
 maintained by Sansbank DAO.
 
-- Live at: <https://pos.paymedash.xyz>
+- Live at: <https://pos.paymedash.com>
 - Deployed as: the `paymedash-pos` Cloudflare Pages project
   (served through the store Worker's proxy in production)
 
